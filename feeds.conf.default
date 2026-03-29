@@ -12,4 +12,3 @@ src-git istore https://github.com/linkease/istore.git
 
 # kiddin9换op-packages（提供OAF）
 src-git kiddin9 https://github.com/kiddin9/op-packages.git
-#
