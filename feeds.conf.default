@@ -12,7 +12,7 @@ src-git routing https://github.com/immortalwrt/routing.git
 src-git istore https://github.com/linkease/istore.git
 
 # KWRT 第三方插件（partexp、oaf 等）
-src-git kiddin9 https://github.com/kiddin9/openwrt-packages.git
+#src-git kiddin9 https://github.com/kiddin9/openwrt-packages.git
 
 # 视频驱动（你不需要，注释掉节省编译时间）
 # src-git video https://github.com/openwrt/video.git
