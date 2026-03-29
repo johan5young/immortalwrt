@@ -1,14 +1,7 @@
-# NSS硬件加速
 src-git nss_packages https://github.com/qosmio/nss-packages.git
 src-git sqm_scripts_nss https://github.com/JuliusBairaktaris/sqm-scripts-nss.git
-
-# ImmortalWrt官方
 src-git packages https://github.com/immortalwrt/packages.git
 src-git luci https://github.com/immortalwrt/luci.git
 src-git routing https://github.com/immortalwrt/routing.git
-
-# iStore
 src-git istore https://github.com/linkease/istore.git
-
-# kiddin9换op-packages（提供OAF）
 src-git kiddin9 https://github.com/kiddin9/op-packages.git
