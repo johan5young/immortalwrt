@@ -1,25 +1,14 @@
-# NSS 硬件加速支持（IPQ6000 满血关键，必须保留！）
+# NSS硬件加速
 src-git nss_packages https://github.com/qosmio/nss-packages.git
 src-git sqm_scripts_nss https://github.com/JuliusBairaktaris/sqm-scripts-nss.git
 
-# ImmortalWrt 官方源（基础包）
+# ImmortalWrt官方
 src-git packages https://github.com/immortalwrt/packages.git
 src-git luci https://github.com/immortalwrt/luci.git
 src-git routing https://github.com/immortalwrt/routing.git
-# src-git telephony https://github.com/immortalwrt/telephony.git  # 不需要电话功能就注释掉
 
-# iStore 应用商店（你需要）
+# iStore
 src-git istore https://github.com/linkease/istore.git
 
-# KWRT 第三方插件（partexp、oaf 等）
+# kiddin9换op-packages（提供OAF）
 src-git kiddin9 https://github.com/kiddin9/op-packages.git
-
-# 视频驱动（你不需要，注释掉节省编译时间）
-# src-git video https://github.com/openwrt/video.git
-
-# 以下保持注释（默认不需要）
-# src-git targets https://github.com/openwrt/targets.git
-# src-git oldpackages http://git.openwrt.org/packages.git
-# src-link custom /usr/src/openwrt/custom-feed
-
-# 换成新的 op-packages（编译时会自动处理成APK）
