@@ -41,6 +41,11 @@ jobs:
 
       - name: Update Feeds
         run: |
+          # 1. 强行删除可能导致语法错误的空行或非法字符
+          sed -i '/^$/d' feeds.conf.default
+          # 2. 修正文件结尾可能缺少的换行符
+          echo "" >> feeds.conf.default
+          # 3. 执行更新和安装
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
