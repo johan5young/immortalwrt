@@ -6,9 +6,6 @@ on:
     branches:
       - main
       - johan5young-patch-1
-  pull_request:
-    branches:
-      - main
 
 jobs:
   build:
@@ -19,9 +16,21 @@ jobs:
         with:
           submodules: true
 
+      # 关键修正：增加磁盘空间清理（解决空间溢出）
+      - name: Free up disk space
+        run: |
+          echo "Cleaning up disk space..."
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/pipx
+          sudo rm -rf /usr/local/share/chrom* /usr/local/share/edge* /usr/local/share/firefox*
+          sudo rm -rf /opt/hostedtoolcache/CodeQL /opt/hostedtoolcache/go /opt/hostedtoolcache/node
+          sudo apt-get remove -y azure-cli google-cloud-cli mongodb-org || true
+          sudo apt-get autoremove -y
+          sudo apt-get clean
+          docker rmi $(docker images -q) 2>/dev/null || true
+          df -h
+
       - name: Initialize Environment
         run: |
-          sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
           sudo -E apt-get -qq update
           sudo -E apt-get -qq install -y build-essential clang flex bison g++ gawk \
           gcc-multilib g++-multilib gettext git libncurses-dev libssl-dev \
