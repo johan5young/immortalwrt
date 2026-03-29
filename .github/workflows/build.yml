@@ -16,19 +16,6 @@ jobs:
         with:
           submodules: true
 
-      # 关键修正：增加磁盘空间清理（解决空间溢出）
-      - name: Free up disk space
-        run: |
-          echo "Cleaning up disk space..."
-          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/pipx
-          sudo rm -rf /usr/local/share/chrom* /usr/local/share/edge* /usr/local/share/firefox*
-          sudo rm -rf /opt/hostedtoolcache/CodeQL /opt/hostedtoolcache/go /opt/hostedtoolcache/node
-          sudo apt-get remove -y azure-cli google-cloud-cli mongodb-org || true
-          sudo apt-get autoremove -y
-          sudo apt-get clean
-          docker rmi $(docker images -q) 2>/dev/null || true
-          df -h
-
       - name: Initialize Environment
         run: |
           sudo -E apt-get -qq update
@@ -41,8 +28,34 @@ jobs:
 
       - name: Update Feeds
         run: |
-          ./scripts/feeds update -a
+          # 添加重试机制，确保 feeds 更新成功
+          for i in 1 2 3; do
+            echo "Attempt $i/3: Updating feeds..."
+            ./scripts/feeds update -a && break
+            echo "Feeds update failed, waiting 30s before retry..."
+            sleep 30
+          done
+          
+          # 检查是否成功生成索引
+          if [ ! -f "feeds/packages.index" ]; then
+            echo "ERROR: feeds/packages.index not found, update failed"
+            exit 1
+          fi
+          
+          echo "Feeds updated successfully, installing..."
           ./scripts/feeds install -a
+
+      - name: Free up disk space
+        run: |
+          echo "Cleaning up disk space..."
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/pipx
+          sudo rm -rf /usr/local/share/chrom* /usr/local/share/edge* /usr/local/share/firefox*
+          sudo rm -rf /opt/hostedtoolcache/CodeQL /opt/hostedtoolcache/go /opt/hostedtoolcache/node
+          sudo apt-get remove -y azure-cli google-cloud-cli mongodb-org || true
+          sudo apt-get autoremove -y
+          sudo apt-get clean
+          docker rmi $(docker images -q) 2>/dev/null || true
+          df -h
 
       - name: Load Custom Configuration
         run: |
